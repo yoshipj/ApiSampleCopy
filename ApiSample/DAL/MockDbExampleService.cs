@@ -113,6 +113,11 @@ namespace ApiSample.DAL
             throw new NotImplementedException();
         }
 
+        public ICollection<Models.Gosc> GetGuestsCollectionWithReservations(string lastName)
+        {
+            throw new NotImplementedException();
+        }
+
         private class Gosc
         {
             public int IdGosc { get; set; }

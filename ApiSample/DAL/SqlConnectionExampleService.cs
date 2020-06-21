@@ -1,4 +1,5 @@
 ﻿using ApiSample.DTOs.Guests;
+using ApiSample.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -187,6 +188,11 @@ namespace ApiSample.DAL
             {
                 return false;
             }
+        }
+
+        public ICollection<Gosc> GetGuestsCollectionWithReservations(string lastName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

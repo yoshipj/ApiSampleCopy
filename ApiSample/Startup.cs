@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ApiSample.DAL;
+﻿using ApiSample.DAL;
+using ApiSample.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace ApiSample
 {
@@ -25,8 +21,20 @@ namespace ApiSample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IExampleService, SqlConnectionExampleService>();
-            services.AddControllers();
+            services.AddDbContext<yoshiContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DbContext"));
+            });
+
+
+            services.AddTransient<IExampleService, EntityFrameworkExampleService>();
+
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                }); // do tego trzeba doinstalować NewtonsoftJson. W Package Manager Console: 
+                    // Install-Package Microsoft.AspNetCore.Mvc.NewtonsoftJson
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
